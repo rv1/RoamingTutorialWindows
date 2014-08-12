@@ -185,11 +185,63 @@ namespace RoamTutorialSample.ViewModels
                 null);
         }
 
+        protected void SetHighPriSettingsProperty<T>(string settingName, T value,
+            SettingsScope scope = SettingsScope.Local,
+            [CallerMemberName] string propertyName = null)
+        {
+            ApplicationDataContainer container =
+                scope == SettingsScope.Local
+                    ? ApplicationData.Current.LocalSettings
+                    : ApplicationData.Current.RoamingSettings;
+
+            var currentFeed = new Windows.Storage.ApplicationDataCompositeValue();
+            currentFeed[settingName] = value;
+
+            container.Values["HighPriority"] = currentFeed;
+
+            this.OnPropertyChanged(propertyName);
+
+        }
+
+        protected T GetHighPriSettingsProperty<T>(
+            string settingName,
+            SettingsScope scope = SettingsScope.Local,
+            [CallerMemberName] string propertyName = null)
+        {
+            T t = default(T);
+            string key;
+
+            ApplicationDataContainer container =
+                scope == SettingsScope.Local
+                    ? ApplicationData.Current.LocalSettings
+                    : ApplicationData.Current.RoamingSettings;
+
+            if (container != null)
+            {
+                var currentFeed = container.Values["HighPriority"] as Windows.Storage.ApplicationDataCompositeValue;
+
+
+
+                object o;
+
+                if (currentFeed != null )
+                {
+                    // might blow up here...  
+                    t = (T) currentFeed[settingName];
+
+                    if (scope == SettingsScope.Roaming)
+                    {
+                        this.TrackRoamedPropertyAccess(propertyName);
+                    }
+                }
+            }
+            return (t);
+        }
+
         private static ConcurrentQueue<WeakReference<SettingsBindableBase>> globalTrackedObjects;
         private List<string> trackedRoamedProperties;
         private SynchronizationContext syncContext;
     }
-
 
 
     internal class RoamViewModel : SettingsBindableBase
@@ -198,13 +250,13 @@ namespace RoamTutorialSample.ViewModels
         {
             get
             {
-                return (base.GetSettingsProperty<string>(
-                    "UsersImage", SettingsScope.Roaming));
+                return (base.GetHighPriSettingsProperty<string>(
+                    "HighPriority.UsersImage", SettingsScope.Roaming));
             }
             set
             {
-                base.SetSettingsProperty<string>(
-                    "UsersImage", value, SettingsScope.Roaming);
+                base.SetHighPriSettingsProperty<string>(
+                    "HighPriority.UsersImage", value, SettingsScope.Roaming);
             }
         }
 

@@ -7,6 +7,44 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+
+    <Page.BottomAppBar>
+        <CommandBar>
+            <CommandBar.PrimaryCommands>
+                <AppBarButton x:Name="Add" Label="Add" Icon="Add" />
+                <AppBarButton x:Name="SelectAll" Label="Select All" Icon="SelectAll" />
+                <AppBarSeparator />
+                <AppBarButton x:Name="Clear" Label="Clear" Icon="Clear" />
+                <AppBarButton x:Name="Delete" Label="Delete" Icon="Delete" />
+                <AppBarToggleButton Label="Toggle" Icon="Delete"/>
+            </CommandBar.PrimaryCommands>
+
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Label="Edit" Icon="Edit"/>
+                <AppBarButton Label="Remove" Icon="Remove"/>
+                <AppBarSeparator />
+                <AppBarButton Label="Add" Icon="Add"/>
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
+
+    <!--<Page.TopAppBar>
+        <AppBar>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Home" Width="140" Height="80" />
+                    <Button Content="Page 1" Width="140" Height="80" />
+                    <Button Content="Page 2" Width="140" Height="80"/>
+                </StackPanel>
+                <SearchBox Grid.Column="1" Width="300" Height="50" HorizontalAlignment="Right"/>
+            </Grid>
+        </AppBar>
+    </Page.TopAppBar>-->
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition/>
